@@ -10,9 +10,19 @@ const allCategories = ["Category1", "Category2", "Category3"];
 const Tags = () => {
   const [categories, setCategories] = useState([]);
 
-  const handleChange = useCallback((event, values, action, option) => {
-    setCategories(values);
-  }, []);
+  const handleChange = useCallback(
+    (event, values, action, { option }) => {
+      if (action === "removeOption") {
+        setCategories(categories.filter((category) => category !== option));
+        return;
+      }
+
+      let clone = categories.slice();
+      clone.push(option);
+      setCategories(clone);
+    },
+    [categories]
+  );
 
   const RenderTextField = useCallback(
     (params) => (
